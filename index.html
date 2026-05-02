@@ -23,8 +23,18 @@
 
     <main id="top">
       <section id="design" class="gallery" aria-label="Selected work">
-        <article class="work work-landscape">
-          <div class="slot-label">Insert Project Image</div>
+        <article class="work work-landscape featured-work">
+          <button
+            class="work-link"
+            id="openProjectGallery"
+            aria-label="Open Silver Snout Social project gallery"
+          >
+            <img
+              src="file:///Users/isabellahunt/.cursor/projects/Users-isabellahunt-Documents-GitHub-izziehunt/assets/mia_poster-53d0077b-91e0-4429-9cbb-c7bde4b80885.png"
+              alt="Silver Snout Social poster design"
+            />
+            <span class="slot-label">View Project</span>
+          </button>
         </article>
         <article class="work work-landscape">
           <div class="slot-label">Insert Project Image</div>
@@ -61,5 +71,111 @@
         </p>
       </section>
     </main>
+
+    <div
+      class="lightbox"
+      id="projectLightbox"
+      aria-hidden="true"
+      role="dialog"
+      aria-label="Project image gallery"
+    >
+      <button class="lightbox-close" id="closeLightbox" aria-label="Close gallery">
+        &times;
+      </button>
+      <button class="lightbox-nav prev" id="prevImage" aria-label="Previous image">
+        &#10094;
+      </button>
+      <figure class="lightbox-content">
+        <img id="lightboxImage" src="" alt="" />
+      </figure>
+      <button class="lightbox-nav next" id="nextImage" aria-label="Next image">
+        &#10095;
+      </button>
+    </div>
+
+    <script>
+      const projectImages = [
+        {
+          src: "file:///Users/isabellahunt/.cursor/projects/Users-isabellahunt-Documents-GitHub-izziehunt/assets/mia_poster-53d0077b-91e0-4429-9cbb-c7bde4b80885.png",
+          alt: "Silver Snout Social poster design"
+        },
+        {
+          src: "file:///Users/isabellahunt/.cursor/projects/Users-isabellahunt-Documents-GitHub-izziehunt/assets/Tote_Bag_Mockup_copy2-15ca17e4-beab-4479-b43c-bd0f32a0809e.png",
+          alt: "Silver Snout Social tote bag mockup"
+        },
+        {
+          src: "file:///Users/isabellahunt/.cursor/projects/Users-isabellahunt-Documents-GitHub-izziehunt/assets/employee_tshirt-57cdcef9-b2de-464c-8bf5-a67bc24385aa.png",
+          alt: "Silver Snout Social t-shirt mockup"
+        },
+        {
+          src: "file:///Users/isabellahunt/.cursor/projects/Users-isabellahunt-Documents-GitHub-izziehunt/assets/bandana_merch_mockup-0158df11-7ec9-458f-a615-5fa952a6b150.png",
+          alt: "Silver Snout Social bandana mockup"
+        }
+      ];
+
+      const openButton = document.getElementById("openProjectGallery");
+      const lightbox = document.getElementById("projectLightbox");
+      const lightboxImage = document.getElementById("lightboxImage");
+      const closeButton = document.getElementById("closeLightbox");
+      const prevButton = document.getElementById("prevImage");
+      const nextButton = document.getElementById("nextImage");
+      let currentIndex = 0;
+
+      function renderImage(index) {
+        const selected = projectImages[index];
+        lightboxImage.src = selected.src;
+        lightboxImage.alt = selected.alt;
+      }
+
+      function openLightbox() {
+        renderImage(currentIndex);
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("no-scroll");
+      }
+
+      function showPrevious() {
+        currentIndex =
+          (currentIndex - 1 + projectImages.length) % projectImages.length;
+        renderImage(currentIndex);
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % projectImages.length;
+        renderImage(currentIndex);
+      }
+
+      openButton.addEventListener("click", openLightbox);
+      closeButton.addEventListener("click", closeLightbox);
+      prevButton.addEventListener("click", showPrevious);
+      nextButton.addEventListener("click", showNext);
+
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (!lightbox.classList.contains("is-open")) {
+          return;
+        }
+        if (event.key === "Escape") {
+          closeLightbox();
+        }
+        if (event.key === "ArrowLeft") {
+          showPrevious();
+        }
+        if (event.key === "ArrowRight") {
+          showNext();
+        }
+      });
+    </script>
   </body>
 </html>
