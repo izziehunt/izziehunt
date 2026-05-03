@@ -36,8 +36,17 @@
             <span class="slot-label">View Project</span>
           </button>
         </article>
-        <article class="work work-landscape">
-          <div class="slot-label">Insert Project Image</div>
+        <article class="work work-landscape work-video">
+          <video
+            id="portfolioScreenRecording"
+            class="work-video-el"
+            src="./assets/screen-recording-2026-04-27.mov"
+            controls
+            playsinline
+            preload="metadata"
+            aria-label="Screen recording from April 27, 2026"
+          ></video>
+          <span class="slot-label video-rate-hint">Plays at 2×</span>
         </article>
         <article class="work work-landscape">
           <div class="slot-label">Insert Project Image</div>
@@ -176,6 +185,15 @@
           showNext();
         }
       });
+
+      const portfolioVideo = document.getElementById("portfolioScreenRecording");
+      if (portfolioVideo) {
+        const setPlaybackDouble = () => {
+          portfolioVideo.playbackRate = 2;
+        };
+        portfolioVideo.addEventListener("loadedmetadata", setPlaybackDouble);
+        portfolioVideo.addEventListener("play", setPlaybackDouble);
+      }
     </script>
   </body>
 </html>
