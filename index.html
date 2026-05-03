@@ -22,7 +22,9 @@
     </header>
 
     <main id="top">
-      <section id="design" class="gallery" aria-label="Selected work">
+      <div class="design-layout">
+        <div class="gallery-column">
+          <section id="design" class="gallery" aria-label="Selected work">
         <article class="work work-landscape featured-work">
           <button
             class="work-link"
@@ -35,18 +37,6 @@
             />
             <span class="slot-label">View Project</span>
           </button>
-        </article>
-        <article class="work work-landscape work-video">
-          <video
-            id="portfolioScreenRecording"
-            class="work-video-el"
-            src="./assets/screen-recording-2026-04-27.mov"
-            controls
-            playsinline
-            preload="metadata"
-            aria-label="Screen recording from April 27, 2026"
-          ></video>
-          <span class="slot-label video-rate-hint">Plays at 2×</span>
         </article>
         <article class="work work-landscape">
           <div class="slot-label">Insert Project Image</div>
@@ -69,7 +59,20 @@
         <article class="work work-landscape">
           <div class="slot-label">Insert Project Image</div>
         </article>
-      </section>
+          </section>
+        </div>
+        <aside class="video-rail" aria-label="Screen recording">
+          <video
+            id="portfolioScreenRecording"
+            class="rail-video"
+            src="./assets/screen-recording-2026-04-27.mov"
+            controls
+            playsinline
+            preload="metadata"
+            aria-label="Screen recording from April 27, 2026"
+          ></video>
+        </aside>
+      </div>
 
       <section id="about" class="about">
         <h1>About</h1>

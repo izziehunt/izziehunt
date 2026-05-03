@@ -61,6 +61,36 @@ main {
   padding: clamp(1.3rem, 3.5vw, 2.3rem);
 }
 
+.design-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(1rem, 2.5vw, 2.25rem);
+}
+
+.gallery-column {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.video-rail {
+  flex: 0 0 auto;
+  position: sticky;
+  top: var(--header-height);
+  align-self: flex-start;
+  margin-left: auto;
+}
+
+.rail-video {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: calc(100vh - var(--header-height));
+  max-width: min(52vw, 1100px);
+  object-fit: contain;
+  background: #0a0a0a;
+}
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -120,20 +150,6 @@ main {
 .featured-work .slot-label {
   color: #ffffff;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-}
-
-.work-video-el {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  background: #0a0a0a;
-}
-
-.work-video .video-rate-hint {
-  color: #ffffff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
-  pointer-events: none;
 }
 
 .work-landscape {
@@ -234,6 +250,27 @@ main {
 }
 
 @media (max-width: 960px) {
+  .design-layout {
+    flex-direction: column;
+  }
+
+  .video-rail {
+    position: relative;
+    top: auto;
+    align-self: stretch;
+    margin-left: 0;
+    order: -1;
+  }
+
+  .rail-video {
+    max-height: min(70vh, 720px);
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
   .work-landscape,
   .work-square,
   .work-portrait {
