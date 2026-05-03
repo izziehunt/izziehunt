@@ -22,9 +22,7 @@
     </header>
 
     <main id="top">
-      <div class="design-layout">
-        <div class="gallery-column">
-          <section id="design" class="gallery" aria-label="Selected work">
+      <section id="design" class="gallery" aria-label="Selected work">
         <article class="work work-landscape featured-work">
           <button
             class="work-link"
@@ -41,6 +39,16 @@
         <article class="work work-landscape">
           <div class="slot-label">Insert Project Image</div>
         </article>
+        <article class="work work-landscape work-grid-video">
+          <video
+            class="portfolio-screen-recording grid-video-el"
+            src="./assets/screen-recording-2026-04-27.mov"
+            controls
+            playsinline
+            preload="metadata"
+            aria-label="Screen recording from April 27, 2026"
+          ></video>
+        </article>
         <article class="work work-square">
           <div class="slot-label">Insert Project Image</div>
         </article>
@@ -56,23 +64,17 @@
         <article class="work work-landscape">
           <div class="slot-label">Insert Project Image</div>
         </article>
-        <article class="work work-landscape">
-          <div class="slot-label">Insert Project Image</div>
-        </article>
-          </section>
-        </div>
-        <aside class="video-rail" aria-label="Screen recording">
+        <article class="work work-landscape work-grid-video">
           <video
-            id="portfolioScreenRecording"
-            class="rail-video"
+            class="portfolio-screen-recording grid-video-el"
             src="./assets/screen-recording-2026-04-27.mov"
             controls
             playsinline
             preload="metadata"
             aria-label="Screen recording from April 27, 2026"
           ></video>
-        </aside>
-      </div>
+        </article>
+      </section>
 
       <section id="about" class="about">
         <h1>About</h1>
@@ -189,14 +191,23 @@
         }
       });
 
-      const portfolioVideo = document.getElementById("portfolioScreenRecording");
-      if (portfolioVideo) {
+      const portfolioVideos = document.querySelectorAll(
+        ".portfolio-screen-recording"
+      );
+      portfolioVideos.forEach((video) => {
         const setPlaybackDouble = () => {
-          portfolioVideo.playbackRate = 2;
+          video.playbackRate = 2;
         };
-        portfolioVideo.addEventListener("loadedmetadata", setPlaybackDouble);
-        portfolioVideo.addEventListener("play", setPlaybackDouble);
-      }
+        video.addEventListener("loadedmetadata", setPlaybackDouble);
+        video.addEventListener("play", () => {
+          portfolioVideos.forEach((other) => {
+            if (other !== video) {
+              other.pause();
+            }
+          });
+          setPlaybackDouble();
+        });
+      });
     </script>
   </body>
 </html>
