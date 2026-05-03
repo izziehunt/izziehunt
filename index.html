@@ -72,7 +72,7 @@
             type="button"
             class="work-link"
             id="openPosterGallery"
-            aria-label="Open poster series and DSGN 103 motion piece — scroll to view"
+            aria-label="Open poster series — scroll to view"
           >
             <img
               src="./assets/poster-1.png"
@@ -84,6 +84,26 @@
         <article class="work work-landscape gallery__r3-insert">
           <div class="slot-label">Insert Project Image</div>
         </article>
+      </section>
+
+      <section
+        id="motion-103"
+        class="motion-spot"
+        aria-label="DSGN 103 PO4 motion piece"
+      >
+        <div class="motion-spot__inner">
+          <video
+            id="motion103Video"
+            class="motion-spot__video"
+            src="./assets/final-103-po4.mp4"
+            controls
+            controlsList="nofullscreen"
+            disablePictureInPicture
+            playsinline
+            preload="metadata"
+            aria-label="DSGN 103 PO4 — final motion piece"
+          ></video>
+        </div>
       </section>
 
       <section id="about" class="about">
@@ -122,7 +142,7 @@
       id="posterLightbox"
       aria-hidden="true"
       role="dialog"
-      aria-label="Posters and DSGN 103 motion piece"
+      aria-label="Poster series"
     >
       <button
         class="lightbox-close"
@@ -155,16 +175,6 @@
           width="768"
           height="1024"
         />
-        <video
-          class="poster-strip-video"
-          src="./assets/final-103-po4.mp4"
-          controls
-          controlsList="nofullscreen"
-          disablePictureInPicture
-          playsinline
-          preload="metadata"
-          aria-label="DSGN 103 PO4 — final motion piece"
-        ></video>
       </div>
     </div>
 
@@ -269,9 +279,9 @@
         }
       });
 
-      const posterStripVideo = document.querySelector(".poster-strip-video");
-      if (posterStripVideo) {
-        posterStripVideo.addEventListener("dblclick", (event) => {
+      const motion103Video = document.getElementById("motion103Video");
+      if (motion103Video) {
+        motion103Video.addEventListener("dblclick", (event) => {
           event.preventDefault();
         });
       }

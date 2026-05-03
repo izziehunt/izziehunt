@@ -315,13 +315,30 @@ main {
   outline: none;
 }
 
-.lightbox--posters img,
-.lightbox--posters .poster-strip-video {
+.lightbox--posters img {
   display: block;
   width: auto;
   height: auto;
   max-width: min(96vw, 100%);
   margin: 0;
+}
+
+.motion-spot {
+  border-top: 1px solid var(--line);
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.3rem, 3.5vw, 2.3rem);
+}
+
+.motion-spot__inner {
+  max-width: min(880px, 100%);
+  margin: 0 auto;
+}
+
+.motion-spot__video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 2px;
+  background: #0a0a0a;
 }
 
 @media (max-width: 960px) {
