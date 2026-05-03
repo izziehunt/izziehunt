@@ -47,9 +47,14 @@
           <video
             class="portfolio-screen-recording grid-video-el"
             src="./assets/screen-recording-2026-04-27.mov"
+            autoplay
+            loop
+            muted
             controls
+            controlsList="nofullscreen"
+            disablePictureInPicture
             playsinline
-            preload="metadata"
+            preload="auto"
             aria-label="Screen recording from April 27, 2026"
           ></video>
         </article>
@@ -189,10 +194,17 @@
         ".portfolio-screen-recording"
       );
       portfolioVideos.forEach((video) => {
+        video.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+        });
         const setPlaybackDouble = () => {
           video.playbackRate = 2;
         };
-        video.addEventListener("loadedmetadata", setPlaybackDouble);
+        const tryPlay = () => {
+          setPlaybackDouble();
+          video.play().catch(() => {});
+        };
+        video.addEventListener("loadedmetadata", tryPlay);
         video.addEventListener("play", () => {
           portfolioVideos.forEach((other) => {
             if (other !== video) {
@@ -200,6 +212,16 @@
             }
           });
           setPlaybackDouble();
+        });
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          return;
+        }
+        document.querySelectorAll(".portfolio-screen-recording").forEach((v) => {
+          v.playbackRate = 2;
+          v.play().catch(() => {});
         });
       });
     </script>
