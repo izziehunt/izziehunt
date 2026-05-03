@@ -70,8 +70,19 @@
         <article class="work work-landscape gallery__r3-b">
           <div class="slot-label">Insert Project Image</div>
         </article>
-        <article class="work work-landscape gallery__r3-insert">
-          <div class="slot-label">Insert Project Image</div>
+        <article class="work work-landscape gallery__r3-insert poster-project-cover">
+          <button
+            type="button"
+            class="work-link"
+            id="openPosterGallery"
+            aria-label="Open poster series — scroll through posters at full size"
+          >
+            <img
+              src="./assets/poster-1.png"
+              alt=""
+            />
+            <span class="slot-label poster-project-label">View posters</span>
+          </button>
         </article>
       </section>
 
@@ -104,6 +115,47 @@
       <button class="lightbox-nav next" id="nextImage" aria-label="Next image">
         &#10095;
       </button>
+    </div>
+
+    <div
+      class="lightbox lightbox--posters"
+      id="posterLightbox"
+      aria-hidden="true"
+      role="dialog"
+      aria-label="Poster series"
+    >
+      <button
+        class="lightbox-close"
+        id="closePosterLightbox"
+        type="button"
+        aria-label="Close poster gallery"
+      >
+        &times;
+      </button>
+      <div
+        class="poster-lightbox-scroll"
+        id="posterLightboxScroll"
+        tabindex="-1"
+      >
+        <img
+          src="./assets/poster-1.png"
+          alt="Poster — beat the heat"
+          width="768"
+          height="1024"
+        />
+        <img
+          src="./assets/poster-2.png"
+          alt="Poster — gold clouds"
+          width="768"
+          height="1024"
+        />
+        <img
+          src="./assets/poster-3.png"
+          alt="Poster — happier eyes"
+          width="768"
+          height="1024"
+        />
+      </div>
     </div>
 
     <script>
@@ -140,7 +192,28 @@
         lightboxImage.alt = selected.alt;
       }
 
+      const posterLightbox = document.getElementById("posterLightbox");
+      const posterScroll = document.getElementById("posterLightboxScroll");
+      const openPosterButton = document.getElementById("openPosterGallery");
+      const closePosterButton = document.getElementById("closePosterLightbox");
+
+      function closePosterLightbox() {
+        posterLightbox.classList.remove("is-open");
+        posterLightbox.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("no-scroll");
+      }
+
+      function openPosterLightbox() {
+        closeLightbox();
+        posterLightbox.classList.add("is-open");
+        posterLightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
+        posterScroll.scrollTop = 0;
+        posterScroll.focus({ preventScroll: true });
+      }
+
       function openLightbox() {
+        closePosterLightbox();
         renderImage(currentIndex);
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
@@ -150,7 +223,9 @@
       function closeLightbox() {
         lightbox.classList.remove("is-open");
         lightbox.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("no-scroll");
+        if (!posterLightbox.classList.contains("is-open")) {
+          document.body.classList.remove("no-scroll");
+        }
       }
 
       function showPrevious() {
@@ -175,12 +250,28 @@
         }
       });
 
+      openPosterButton.addEventListener("click", openPosterLightbox);
+      closePosterButton.addEventListener("click", closePosterLightbox);
+
+      posterLightbox.addEventListener("click", (event) => {
+        if (event.target === posterLightbox) {
+          closePosterLightbox();
+        }
+      });
+
       document.addEventListener("keydown", (event) => {
-        if (!lightbox.classList.contains("is-open")) {
+        if (event.key === "Escape") {
+          if (posterLightbox.classList.contains("is-open")) {
+            closePosterLightbox();
+            return;
+          }
+          if (lightbox.classList.contains("is-open")) {
+            closeLightbox();
+          }
           return;
         }
-        if (event.key === "Escape") {
-          closeLightbox();
+        if (!lightbox.classList.contains("is-open")) {
+          return;
         }
         if (event.key === "ArrowLeft") {
           showPrevious();
