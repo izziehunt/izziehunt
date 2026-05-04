@@ -112,7 +112,10 @@ main {
   grid-row: 3;
 }
 
-.gallery--placed .gallery__mia.work-landscape,
+.gallery--placed .gallery__mia.work-landscape {
+  align-self: start;
+}
+
 .gallery--placed .gallery__flicker.work-landscape {
   aspect-ratio: unset;
   min-height: 0;
