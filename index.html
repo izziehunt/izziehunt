@@ -67,7 +67,7 @@
             type="button"
             class="work-link"
             id="openPosterGallery"
-            aria-label="Open poster series — scroll to view"
+            aria-label="Open poster series gallery"
           >
             <img
               src="./assets/poster-1.png"
@@ -144,7 +144,7 @@
       id="posterLightbox"
       aria-hidden="true"
       role="dialog"
-      aria-label="Poster series"
+      aria-label="Poster series gallery"
     >
       <button
         class="lightbox-close"
@@ -154,30 +154,25 @@
       >
         &times;
       </button>
-      <div
-        class="poster-lightbox-scroll"
-        id="posterLightboxScroll"
-        tabindex="-1"
+      <button
+        class="lightbox-nav prev"
+        id="prevPoster"
+        type="button"
+        aria-label="Previous poster"
       >
-        <img
-          src="./assets/poster-1.png"
-          alt="Poster — beat the heat"
-          width="768"
-          height="1024"
-        />
-        <img
-          src="./assets/poster-2.png"
-          alt="Poster — gold clouds"
-          width="768"
-          height="1024"
-        />
-        <img
-          src="./assets/poster-3.png"
-          alt="Poster — happier eyes"
-          width="768"
-          height="1024"
-        />
-      </div>
+        &#10094;
+      </button>
+      <figure class="lightbox-content">
+        <img id="posterLightboxImage" src="" alt="" width="768" height="1024" />
+      </figure>
+      <button
+        class="lightbox-nav next"
+        id="nextPoster"
+        type="button"
+        aria-label="Next poster"
+      >
+        &#10095;
+      </button>
     </div>
 
     <script>
@@ -214,10 +209,34 @@
         lightboxImage.alt = selected.alt;
       }
 
+      const posterImages = [
+        {
+          src: "./assets/poster-1.png",
+          alt: "Poster — beat the heat"
+        },
+        {
+          src: "./assets/poster-2.png",
+          alt: "Poster — gold clouds"
+        },
+        {
+          src: "./assets/poster-3.png",
+          alt: "Poster — happier eyes"
+        }
+      ];
+
       const posterLightbox = document.getElementById("posterLightbox");
-      const posterScroll = document.getElementById("posterLightboxScroll");
+      const posterLightboxImage = document.getElementById("posterLightboxImage");
       const openPosterButton = document.getElementById("openPosterGallery");
       const closePosterButton = document.getElementById("closePosterLightbox");
+      const prevPosterButton = document.getElementById("prevPoster");
+      const nextPosterButton = document.getElementById("nextPoster");
+      let posterCurrentIndex = 0;
+
+      function renderPoster(index) {
+        const selected = posterImages[index];
+        posterLightboxImage.src = selected.src;
+        posterLightboxImage.alt = selected.alt;
+      }
 
       function closePosterLightbox() {
         posterLightbox.classList.remove("is-open");
@@ -227,11 +246,22 @@
 
       function openPosterLightbox() {
         closeLightbox();
+        posterCurrentIndex = 0;
+        renderPoster(posterCurrentIndex);
         posterLightbox.classList.add("is-open");
         posterLightbox.setAttribute("aria-hidden", "false");
         document.body.classList.add("no-scroll");
-        posterScroll.scrollTop = 0;
-        posterScroll.focus({ preventScroll: true });
+      }
+
+      function showPosterPrevious() {
+        posterCurrentIndex =
+          (posterCurrentIndex - 1 + posterImages.length) % posterImages.length;
+        renderPoster(posterCurrentIndex);
+      }
+
+      function showPosterNext() {
+        posterCurrentIndex = (posterCurrentIndex + 1) % posterImages.length;
+        renderPoster(posterCurrentIndex);
       }
 
       function openLightbox() {
@@ -274,6 +304,8 @@
 
       openPosterButton.addEventListener("click", openPosterLightbox);
       closePosterButton.addEventListener("click", closePosterLightbox);
+      prevPosterButton.addEventListener("click", showPosterPrevious);
+      nextPosterButton.addEventListener("click", showPosterNext);
 
       posterLightbox.addEventListener("click", (event) => {
         if (event.target === posterLightbox) {
@@ -300,6 +332,15 @@
           }
           if (lightbox.classList.contains("is-open")) {
             closeLightbox();
+          }
+          return;
+        }
+        if (posterLightbox.classList.contains("is-open")) {
+          if (event.key === "ArrowLeft") {
+            showPosterPrevious();
+          }
+          if (event.key === "ArrowRight") {
+            showPosterNext();
           }
           return;
         }
