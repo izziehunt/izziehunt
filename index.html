@@ -50,11 +50,14 @@
               id="motion103Video"
               class="motion-grid-video grid-video-el"
               src="./assets/final-103-po4.mp4"
+              autoplay
+              loop
+              muted
               controls
               controlsList="nofullscreen"
               disablePictureInPicture
               playsinline
-              preload="metadata"
+              preload="auto"
               aria-label="DSGN 103 PO4 — grid motion piece"
             ></video>
           </article>
@@ -283,6 +286,10 @@
         motion103Video.addEventListener("dblclick", (event) => {
           event.preventDefault();
         });
+        const tryMotionPlay = () => {
+          motion103Video.play().catch(() => {});
+        };
+        motion103Video.addEventListener("loadedmetadata", tryMotionPlay);
       }
 
       document.addEventListener("keydown", (event) => {
@@ -340,6 +347,9 @@
           v.playbackRate = 2;
           v.play().catch(() => {});
         });
+        if (motion103Video) {
+          motion103Video.play().catch(() => {});
+        }
       });
     </script>
   </body>
