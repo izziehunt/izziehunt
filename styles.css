@@ -104,7 +104,7 @@ main {
 
 .gallery--placed .gallery__r1c3 {
   grid-column: 9 / span 4;
-  grid-row: 1 / span 2;
+  grid-row: 1;
 }
 
 .gallery--placed .gallery__r2-portrait {
@@ -130,12 +130,6 @@ main {
 .gallery--placed .gallery__r3-insert {
   grid-column: 9 / span 4;
   grid-row: 3;
-}
-
-.gallery--placed .gallery__flicker.work-landscape {
-  aspect-ratio: unset;
-  min-height: 0;
-  align-self: stretch;
 }
 
 .work {
