@@ -69,7 +69,7 @@ main {
 
 .gallery--placed .gallery__left-stack {
   grid-column: 1 / span 4;
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 3;
   display: flex;
   flex-direction: column;
   gap: clamp(0.75rem, 1.5vw, 1.25rem);
@@ -194,7 +194,8 @@ main {
 }
 
 .poster-project-cover img,
-.editorial-project-cover img {
+.editorial-project-cover img,
+.album-project-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -203,7 +204,8 @@ main {
 }
 
 .poster-project-cover:hover img,
-.editorial-project-cover:hover img {
+.editorial-project-cover:hover img,
+.album-project-cover:hover img {
   transform: scale(1.015);
 }
 
@@ -318,6 +320,10 @@ main {
 }
 
 .lightbox--posters .lightbox-close {
+  z-index: 3100;
+}
+
+.lightbox--album .lightbox-close {
   z-index: 3100;
 }
 

@@ -61,6 +61,20 @@
               aria-label="DSGN 103 PO4 — grid motion piece"
             ></video>
           </article>
+          <article class="work work-landscape album-project-cover">
+            <button
+              type="button"
+              class="work-link"
+              id="openAlbumGallery"
+              aria-label="Open album cover project gallery"
+            >
+              <img
+                src="./assets/album-color.png"
+                alt="Flipturn Back album cover design"
+              />
+              <span class="slot-label poster-project-label">View album project</span>
+            </button>
+          </article>
         </div>
         <div
           class="gallery__middle-stack"
@@ -113,9 +127,6 @@
           ></video>
         </article>
         <article class="work work-square gallery__r2-c3">
-          <div class="slot-label">Insert Project Image</div>
-        </article>
-        <article class="work work-landscape gallery__r3-a">
           <div class="slot-label">Insert Project Image</div>
         </article>
         <article class="work work-portrait gallery__r3-b">
@@ -193,6 +204,42 @@
       </button>
     </div>
 
+    <div
+      class="lightbox lightbox--album"
+      id="albumLightbox"
+      aria-hidden="true"
+      role="dialog"
+      aria-label="Album cover project gallery"
+    >
+      <button
+        class="lightbox-close"
+        id="closeAlbumLightbox"
+        type="button"
+        aria-label="Close album gallery"
+      >
+        &times;
+      </button>
+      <button
+        class="lightbox-nav prev"
+        id="prevAlbum"
+        type="button"
+        aria-label="Previous album design"
+      >
+        &#10094;
+      </button>
+      <figure class="lightbox-content">
+        <img id="albumLightboxImage" src="" alt="" />
+      </figure>
+      <button
+        class="lightbox-nav next"
+        id="nextAlbum"
+        type="button"
+        aria-label="Next album design"
+      >
+        &#10095;
+      </button>
+    </div>
+
     <script>
       const projectImages = [
         {
@@ -242,6 +289,17 @@
         }
       ];
 
+      const albumImages = [
+        {
+          src: "./assets/album-color.png",
+          alt: "Flipturn Back album cover design with childhood photo collage"
+        },
+        {
+          src: "./assets/album-pattern.png",
+          alt: "Flipturn Back album cover design with retro circular pattern"
+        }
+      ];
+
       const posterLightbox = document.getElementById("posterLightbox");
       const posterLightboxImage = document.getElementById("posterLightboxImage");
       const openPosterButton = document.getElementById("openPosterGallery");
@@ -249,6 +307,13 @@
       const prevPosterButton = document.getElementById("prevPoster");
       const nextPosterButton = document.getElementById("nextPoster");
       let posterCurrentIndex = 0;
+      const albumLightbox = document.getElementById("albumLightbox");
+      const albumLightboxImage = document.getElementById("albumLightboxImage");
+      const openAlbumButton = document.getElementById("openAlbumGallery");
+      const closeAlbumButton = document.getElementById("closeAlbumLightbox");
+      const prevAlbumButton = document.getElementById("prevAlbum");
+      const nextAlbumButton = document.getElementById("nextAlbum");
+      let albumCurrentIndex = 0;
 
       function renderPoster(index) {
         const selected = posterImages[index];
@@ -256,14 +321,23 @@
         posterLightboxImage.alt = selected.alt;
       }
 
+      function renderAlbum(index) {
+        const selected = albumImages[index];
+        albumLightboxImage.src = selected.src;
+        albumLightboxImage.alt = selected.alt;
+      }
+
       function closePosterLightbox() {
         posterLightbox.classList.remove("is-open");
         posterLightbox.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("no-scroll");
+        if (!lightbox.classList.contains("is-open") && !albumLightbox.classList.contains("is-open")) {
+          document.body.classList.remove("no-scroll");
+        }
       }
 
       function openPosterLightbox() {
         closeLightbox();
+        closeAlbumLightbox();
         posterCurrentIndex = 0;
         renderPoster(posterCurrentIndex);
         posterLightbox.classList.add("is-open");
@@ -282,8 +356,38 @@
         renderPoster(posterCurrentIndex);
       }
 
+      function closeAlbumLightbox() {
+        albumLightbox.classList.remove("is-open");
+        albumLightbox.setAttribute("aria-hidden", "true");
+        if (!lightbox.classList.contains("is-open") && !posterLightbox.classList.contains("is-open")) {
+          document.body.classList.remove("no-scroll");
+        }
+      }
+
+      function openAlbumLightbox() {
+        closeLightbox();
+        closePosterLightbox();
+        albumCurrentIndex = 0;
+        renderAlbum(albumCurrentIndex);
+        albumLightbox.classList.add("is-open");
+        albumLightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
+      }
+
+      function showAlbumPrevious() {
+        albumCurrentIndex =
+          (albumCurrentIndex - 1 + albumImages.length) % albumImages.length;
+        renderAlbum(albumCurrentIndex);
+      }
+
+      function showAlbumNext() {
+        albumCurrentIndex = (albumCurrentIndex + 1) % albumImages.length;
+        renderAlbum(albumCurrentIndex);
+      }
+
       function openLightbox() {
         closePosterLightbox();
+        closeAlbumLightbox();
         renderImage(currentIndex);
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
@@ -293,7 +397,7 @@
       function closeLightbox() {
         lightbox.classList.remove("is-open");
         lightbox.setAttribute("aria-hidden", "true");
-        if (!posterLightbox.classList.contains("is-open")) {
+        if (!posterLightbox.classList.contains("is-open") && !albumLightbox.classList.contains("is-open")) {
           document.body.classList.remove("no-scroll");
         }
       }
@@ -324,10 +428,20 @@
       closePosterButton.addEventListener("click", closePosterLightbox);
       prevPosterButton.addEventListener("click", showPosterPrevious);
       nextPosterButton.addEventListener("click", showPosterNext);
+      openAlbumButton.addEventListener("click", openAlbumLightbox);
+      closeAlbumButton.addEventListener("click", closeAlbumLightbox);
+      prevAlbumButton.addEventListener("click", showAlbumPrevious);
+      nextAlbumButton.addEventListener("click", showAlbumNext);
 
       posterLightbox.addEventListener("click", (event) => {
         if (event.target === posterLightbox) {
           closePosterLightbox();
+        }
+      });
+
+      albumLightbox.addEventListener("click", (event) => {
+        if (event.target === albumLightbox) {
+          closeAlbumLightbox();
         }
       });
 
@@ -344,6 +458,10 @@
 
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
+          if (albumLightbox.classList.contains("is-open")) {
+            closeAlbumLightbox();
+            return;
+          }
           if (posterLightbox.classList.contains("is-open")) {
             closePosterLightbox();
             return;
@@ -359,6 +477,15 @@
           }
           if (event.key === "ArrowRight") {
             showPosterNext();
+          }
+          return;
+        }
+        if (albumLightbox.classList.contains("is-open")) {
+          if (event.key === "ArrowLeft") {
+            showAlbumPrevious();
+          }
+          if (event.key === "ArrowRight") {
+            showAlbumNext();
           }
           return;
         }
