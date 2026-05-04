@@ -27,19 +27,38 @@
         class="gallery gallery--placed"
         aria-label="Selected work"
       >
-        <article class="work work-landscape featured-work gallery__mia">
-          <button
-            class="work-link"
-            id="openProjectGallery"
-            aria-label="Open Silver Snout Social project gallery"
-          >
-            <img
-              src="./assets/mia-poster.png"
-              alt="Silver Snout Social poster design"
-            />
-            <span class="slot-label">View Project</span>
-          </button>
-        </article>
+        <div
+          class="gallery__left-stack"
+          role="group"
+          aria-label="Silver Snout Social project and DSGN grid motion"
+        >
+          <article class="work work-landscape featured-work gallery__mia">
+            <button
+              class="work-link"
+              id="openProjectGallery"
+              aria-label="Open Silver Snout Social project gallery"
+            >
+              <img
+                src="./assets/mia-poster.png"
+                alt="Silver Snout Social poster design"
+              />
+              <span class="slot-label">View Project</span>
+            </button>
+          </article>
+          <article class="work work-landscape gallery__grid-video">
+            <video
+              id="motion103Video"
+              class="motion-grid-video grid-video-el"
+              src="./assets/final-103-po4.mp4"
+              controls
+              controlsList="nofullscreen"
+              disablePictureInPicture
+              playsinline
+              preload="metadata"
+              aria-label="DSGN 103 PO4 — grid motion piece"
+            ></video>
+          </article>
+        </div>
         <article class="work work-portrait gallery__r1c2 poster-project-cover">
           <button
             type="button"
@@ -67,19 +86,6 @@
             playsinline
             preload="auto"
             aria-label="Flicker recording — Light up the night"
-          ></video>
-        </article>
-        <article class="work work-landscape gallery__r2-square gallery__grid-video">
-          <video
-            id="motion103Video"
-            class="motion-grid-video grid-video-el"
-            src="./assets/final-103-po4.mp4"
-            controls
-            controlsList="nofullscreen"
-            disablePictureInPicture
-            playsinline
-            preload="metadata"
-            aria-label="DSGN 103 PO4 — grid motion piece"
           ></video>
         </article>
         <article class="work work-portrait gallery__r2-portrait">

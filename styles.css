@@ -67,9 +67,19 @@ main {
   gap: clamp(0.75rem, 1.5vw, 1.25rem);
 }
 
-.gallery--placed .gallery__mia {
+.gallery--placed .gallery__left-stack {
   grid-column: 1 / span 4;
-  grid-row: 1;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  align-self: start;
+  min-width: 0;
+}
+
+.gallery__left-stack .gallery__mia,
+.gallery__left-stack .gallery__grid-video {
+  width: 100%;
 }
 
 .gallery--placed .gallery__r1c2 {
@@ -80,11 +90,6 @@ main {
 .gallery--placed .gallery__r1c3 {
   grid-column: 9 / span 4;
   grid-row: 1;
-}
-
-.gallery--placed .gallery__r2-square {
-  grid-column: 1 / span 4;
-  grid-row: 2;
 }
 
 .gallery--placed .gallery__r2-portrait {
@@ -110,10 +115,6 @@ main {
 .gallery--placed .gallery__r3-insert {
   grid-column: 9 / span 4;
   grid-row: 3;
-}
-
-.gallery--placed .gallery__mia.work-landscape {
-  align-self: start;
 }
 
 .gallery--placed .gallery__flicker.work-landscape {
