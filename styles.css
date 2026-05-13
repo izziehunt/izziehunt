@@ -181,7 +181,19 @@ main {
 .gallery--placed .gallery__flicker.work-landscape {
   aspect-ratio: unset;
   min-height: 0;
-  align-self: stretch;
+  align-self: start;
+  width: fit-content;
+  max-width: 100%;
+  justify-self: end;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.gallery--placed .gallery__flicker .grid-video-el {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .work {
@@ -397,12 +409,15 @@ main {
 
   .gallery.gallery--placed .gallery__flicker.work-landscape {
     align-self: stretch;
-    max-height: min(85vh, 720px);
+    justify-self: stretch;
+    width: 100%;
+    justify-content: center;
   }
 
   .gallery.gallery--placed .gallery__flicker .grid-video-el {
-    max-height: min(85vh, 720px);
-    object-fit: cover;
+    max-width: 100%;
+    max-height: min(80vh, 900px);
+    object-fit: contain;
   }
 
   .work-landscape,
