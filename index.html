@@ -61,35 +61,20 @@
               aria-label="DSGN 103 PO4 — grid motion piece"
             ></video>
           </article>
-          <div
-            class="zine-scroll-strip"
-            role="region"
-            aria-label="Sapphic Scoop zine mockups — scroll horizontally"
-          >
-            <div class="zine-scroll-strip__inner">
-              <figure class="zine-scroll-strip__item">
-                <img
-                  src="./assets/sapphic-zine-cover.png"
-                  alt="Sapphic Scoop zine cover mockup"
-                  loading="lazy"
-                />
-              </figure>
-              <figure class="zine-scroll-strip__item">
-                <img
-                  src="./assets/sapphic-zine-inside.png"
-                  alt="Sapphic Scoop zine inside spread — Local News"
-                  loading="lazy"
-                />
-              </figure>
-              <figure class="zine-scroll-strip__item">
-                <img
-                  src="./assets/sapphic-zine-dear-sapphic.png"
-                  alt="Sapphic Scoop zine back page — Dear Sapphic advice column"
-                  loading="lazy"
-                />
-              </figure>
-            </div>
-          </div>
+          <article class="work work-landscape featured-work gallery__zine">
+            <button
+              type="button"
+              class="work-link"
+              id="openZineGallery"
+              aria-label="Open Sapphic Scoop zine mockups"
+            >
+              <img
+                src="./assets/sapphic-zine-cover.png"
+                alt="Sapphic Scoop zine cover mockup"
+              />
+              <span class="slot-label">View zine</span>
+            </button>
+          </article>
         </div>
         <div
           class="gallery__middle-stack"
@@ -216,6 +201,32 @@
       </button>
     </div>
 
+    <div
+      class="lightbox lightbox--zine"
+      id="zineLightbox"
+      aria-hidden="true"
+      role="dialog"
+      aria-label="Sapphic Scoop zine mockups"
+    >
+      <button
+        class="lightbox-close"
+        id="closeZineLightbox"
+        type="button"
+        aria-label="Close zine gallery"
+      >
+        &times;
+      </button>
+      <button class="lightbox-nav prev" id="prevZine" type="button" aria-label="Previous image">
+        &#10094;
+      </button>
+      <figure class="lightbox-content">
+        <img id="zineLightboxImage" src="" alt="" />
+      </figure>
+      <button class="lightbox-nav next" id="nextZine" type="button" aria-label="Next image">
+        &#10095;
+      </button>
+    </div>
+
     <script>
       const projectImages = [
         {
@@ -273,22 +284,76 @@
       const nextPosterButton = document.getElementById("nextPoster");
       let posterCurrentIndex = 0;
 
+      const zineLightbox = document.getElementById("zineLightbox");
+      const zineLightboxImage = document.getElementById("zineLightboxImage");
+      const openZineButton = document.getElementById("openZineGallery");
+      const closeZineButton = document.getElementById("closeZineLightbox");
+      const prevZineButton = document.getElementById("prevZine");
+      const nextZineButton = document.getElementById("nextZine");
+      let zineCurrentIndex = 0;
+
+      const zineImages = [
+        {
+          src: "./assets/sapphic-zine-cover.png",
+          alt: "Sapphic Scoop zine cover mockup"
+        },
+        {
+          src: "./assets/sapphic-zine-inside.png",
+          alt: "Sapphic Scoop zine inside spread — Local News"
+        },
+        {
+          src: "./assets/sapphic-zine-dear-sapphic.png",
+          alt: "Sapphic Scoop zine back page — Dear Sapphic advice column"
+        }
+      ];
+
       function renderPoster(index) {
         const selected = posterImages[index];
         posterLightboxImage.src = selected.src;
         posterLightboxImage.alt = selected.alt;
       }
 
-      function closePosterLightbox() {
-        posterLightbox.classList.remove("is-open");
-        posterLightbox.setAttribute("aria-hidden", "true");
-        if (!lightbox.classList.contains("is-open")) {
+      function renderZine(index) {
+        const selected = zineImages[index];
+        zineLightboxImage.src = selected.src;
+        zineLightboxImage.alt = selected.alt;
+      }
+
+      function closeZineLightbox() {
+        zineLightbox.classList.remove("is-open");
+        zineLightbox.setAttribute("aria-hidden", "true");
+        if (
+          !lightbox.classList.contains("is-open") &&
+          !posterLightbox.classList.contains("is-open")
+        ) {
           document.body.classList.remove("no-scroll");
         }
       }
 
+      function closePosterLightbox() {
+        posterLightbox.classList.remove("is-open");
+        posterLightbox.setAttribute("aria-hidden", "true");
+        if (
+          !lightbox.classList.contains("is-open") &&
+          !zineLightbox.classList.contains("is-open")
+        ) {
+          document.body.classList.remove("no-scroll");
+        }
+      }
+
+      function openZineLightbox() {
+        closeLightbox();
+        closePosterLightbox();
+        zineCurrentIndex = 0;
+        renderZine(zineCurrentIndex);
+        zineLightbox.classList.add("is-open");
+        zineLightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("no-scroll");
+      }
+
       function openPosterLightbox() {
         closeLightbox();
+        closeZineLightbox();
         posterCurrentIndex = 0;
         renderPoster(posterCurrentIndex);
         posterLightbox.classList.add("is-open");
@@ -307,8 +372,20 @@
         renderPoster(posterCurrentIndex);
       }
 
+      function showZinePrevious() {
+        zineCurrentIndex =
+          (zineCurrentIndex - 1 + zineImages.length) % zineImages.length;
+        renderZine(zineCurrentIndex);
+      }
+
+      function showZineNext() {
+        zineCurrentIndex = (zineCurrentIndex + 1) % zineImages.length;
+        renderZine(zineCurrentIndex);
+      }
+
       function openLightbox() {
         closePosterLightbox();
+        closeZineLightbox();
         renderImage(currentIndex);
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
@@ -318,7 +395,10 @@
       function closeLightbox() {
         lightbox.classList.remove("is-open");
         lightbox.setAttribute("aria-hidden", "true");
-        if (!posterLightbox.classList.contains("is-open")) {
+        if (
+          !posterLightbox.classList.contains("is-open") &&
+          !zineLightbox.classList.contains("is-open")
+        ) {
           document.body.classList.remove("no-scroll");
         }
       }
@@ -356,6 +436,17 @@
         }
       });
 
+      openZineButton.addEventListener("click", openZineLightbox);
+      closeZineButton.addEventListener("click", closeZineLightbox);
+      prevZineButton.addEventListener("click", showZinePrevious);
+      nextZineButton.addEventListener("click", showZineNext);
+
+      zineLightbox.addEventListener("click", (event) => {
+        if (event.target === zineLightbox) {
+          closeZineLightbox();
+        }
+      });
+
       const motion103Video = document.getElementById("motion103Video");
       if (motion103Video) {
         motion103Video.addEventListener("dblclick", (event) => {
@@ -369,12 +460,25 @@
 
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
+          if (zineLightbox.classList.contains("is-open")) {
+            closeZineLightbox();
+            return;
+          }
           if (posterLightbox.classList.contains("is-open")) {
             closePosterLightbox();
             return;
           }
           if (lightbox.classList.contains("is-open")) {
             closeLightbox();
+          }
+          return;
+        }
+        if (zineLightbox.classList.contains("is-open")) {
+          if (event.key === "ArrowLeft") {
+            showZinePrevious();
+          }
+          if (event.key === "ArrowRight") {
+            showZineNext();
           }
           return;
         }
